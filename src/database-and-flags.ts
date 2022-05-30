@@ -2,6 +2,13 @@ import { workspace } from 'coc.nvim';
 import * as fs from 'fs';
 import * as path from 'path';
 
+//TODO - delete when done
+import * as util from 'util';
+const log_file =  fs.createWriteStream(workspace.expand('~/.coc-clangd.log'), {flags :'a'});
+console.log = function(chunk) {
+  log_file.write(util.format(chunk) + '\n');
+};
+
 export function closestCompilationDatabase(cwd: string, candidates: string[]): string {
   // If the workspace does not exists we just return '' which is invalid.
   // In this case `clangd` will ignore the option and try other means to find the db.
@@ -25,6 +32,9 @@ export function closestCompilationDatabase(cwd: string, candidates: string[]): s
       break;
     }
   }
+
+  //TODO - delete when done
+  console.log(rv);
 
   return rv;
 }
